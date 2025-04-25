@@ -101,3 +101,12 @@ Lấy tất cả các cột thuộc bảng SV với điều kiện lọc:
 - ORDER BY ten COLLATE Vietnamese_CI_AS, hodem COLLATE Vietnamese_CI_AS : Sắp xếp kết quả theo tên, rồi đến hodem. Trong đó có tùy chọn sắp xếp tên tiếng Việt có phân biệt dấu (ví dụ: A Ă Â B C...)
 ![image](https://github.com/user-attachments/assets/f5e9ff65-2885-42cb-b680-9a81263b6b3a)
 ## 10: HÃY NHẬP SQL ĐỂ LIỆT KÊ CÁC SV NỮ NGÀNH KMT CÓ TRONG BẢNG SV (TRÌNH BÀY QUÁ TRÌNH SUY NGHĨ VÀ GIẢI NHỮNG VỨNG MẮC)
+### Ý tưởng của em: dùng "Thị" để xác định sinh viên nữ khi bảng SV không có trường giới tính
+Trong tiếng Việt, "Thị" là một phần họ đệm rất đặc trưng cho giới tính nữ. Vậy nên: Nếu trong họ đệm (tức cột hodem) có chứa chữ "Thị", thì gần như chắc chắn đó là sinh viên nữ. Đối với em, dùng "Thị" trong hodem để xác định sinh viên nữ là một cách khá thông minh, gọn gàng, hợp ngữ cảnh văn hoá Việt.
+```sql
+SELECT *
+FROM SV
+WHERE lop LIKE '%KMT%'
+  AND hodem COLLATE Vietnamese_CI_AI LIKE '%thi%';
+```
+![image](https://github.com/user-attachments/assets/020bc46d-19f0-49fa-b847-b2245a64b919)
