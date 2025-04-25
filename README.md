@@ -52,4 +52,52 @@ from SV
 where MONTH (ns) = '11' and YEAR (ns) = '2004';
 ```
 ![image](https://github.com/user-attachments/assets/ce9e430a-bf24-439d-a69f-cd3fe80b5d3b)
-## 6: 
+## 6: Nhập sql để tìm xem có những sv nào trùng tên với em?
+```sql
+select *
+from SV
+where ten = N'Hiếu';
+```
+![image](https://github.com/user-attachments/assets/a7c8dee0-5bfb-4f67-9f75-efd74c88555e)
+## 7: Nhập sql để tìm xem có những sv nào trùng họ và tên đệm với em.
+```sql
+select *
+from SV
+where hodem = N'Nguyễn Trung';
+```
+![image](https://github.com/user-attachments/assets/5eb34708-d9c8-49a0-8fd4-f0f0ff7707ee)
+## 8: Nhập sql để tìm xem có những sv nào có sđt sai khác chỉ 1 số so với sđt của em.
+Để tìm số điện thoại của những sinh viên chỉ khác 1 số so với sdt của em, em sử dụng Hàm SUBSTRING(sdt, n, 1) lấy từng ký tự thứ n trong số điện thoại. So sánh từng ký tự với số của em là'0328125479'. Nếu tổng các ký tự khác nhau đúng bằng 1 thì đó là số chỉ sai đúng 1 số.
+```sql
+DECLARE @MyPhone nvarchar(26) = '0328125479';
+SELECT *
+FROM SV
+WHERE LEN(sdt) = 10
+  AND (
+    (CASE WHEN SUBSTRING(sdt, 1, 1) <> SUBSTRING(@MyPhone, 1, 1) THEN 1 ELSE 0 END) +
+    (CASE WHEN SUBSTRING(sdt, 2, 1) <> SUBSTRING(@MyPhone, 2, 1) THEN 1 ELSE 0 END) +
+    (CASE WHEN SUBSTRING(sdt, 3, 1) <> SUBSTRING(@MyPhone, 3, 1) THEN 1 ELSE 0 END) +
+    (CASE WHEN SUBSTRING(sdt, 4, 1) <> SUBSTRING(@MyPhone, 4, 1) THEN 1 ELSE 0 END) +
+    (CASE WHEN SUBSTRING(sdt, 5, 1) <> SUBSTRING(@MyPhone, 5, 1) THEN 1 ELSE 0 END) +
+    (CASE WHEN SUBSTRING(sdt, 6, 1) <> SUBSTRING(@MyPhone, 6, 1) THEN 1 ELSE 0 END) +
+    (CASE WHEN SUBSTRING(sdt, 7, 1) <> SUBSTRING(@MyPhone, 7, 1) THEN 1 ELSE 0 END) +
+    (CASE WHEN SUBSTRING(sdt, 8, 1) <> SUBSTRING(@MyPhone, 8, 1) THEN 1 ELSE 0 END) +
+    (CASE WHEN SUBSTRING(sdt, 9, 1) <> SUBSTRING(@MyPhone, 9, 1) THEN 1 ELSE 0 END) +
+	(CASE WHEN SUBSTRING(sdt, 10, 1) <> SUBSTRING(@MyPhone, 10, 1) THEN 1 ELSE 0 END)
+  ) = 1;
+```
+![image](https://github.com/user-attachments/assets/81a9e2e3-4180-4ce8-a6d4-e48bb7eeb1ca)
+### Kết quả cho thấy không có sinh viên nào có sdt chỉ khác 1 số so với sdt của em.
+## 9: BẢNG SV CÓ HƠN 9000 ROWS, HÃY LIỆT KÊ TẤT CẢ CÁC SV NGÀNH KMT, SẮP XẾP THEO TÊN VÀ HỌ ĐỆM, KIỂU TIẾNG  VIỆT, GIẢI THÍCH.
+```sql
+SELECT *
+FROM SV
+WHERE lop like '%KMT%'
+ORDER BY ten COLLATE Vietnamese_CI_AS, hodem COLLATE Vietnamese_CI_AS;
+```
+### Giải thích:
+Lấy tất cả các cột thuộc bảng SV với điều kiện lọc:
+- WHERE lop like '%KMT%' : Chỉ lấy những sinh viên có lop chứa chuỗi 'KMT'
+- ORDER BY ten COLLATE Vietnamese_CI_AS, hodem COLLATE Vietnamese_CI_AS : Sắp xếp kết quả theo tên, rồi đến hodem. Trong đó có tùy chọn sắp xếp tên tiếng Việt có phân biệt dấu (ví dụ: A Ă Â B C...)
+![image](https://github.com/user-attachments/assets/f5e9ff65-2885-42cb-b680-9a81263b6b3a)
+## 10: HÃY NHẬP SQL ĐỂ LIỆT KÊ CÁC SV NỮ NGÀNH KMT CÓ TRONG BẢNG SV (TRÌNH BÀY QUÁ TRÌNH SUY NGHĨ VÀ GIẢI NHỮNG VỨNG MẮC)
