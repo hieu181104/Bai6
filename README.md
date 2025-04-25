@@ -110,3 +110,4 @@ WHERE lop LIKE '%KMT%'
   AND hodem COLLATE Vietnamese_CI_AI LIKE '%thi%';
 ```
 ![image](https://github.com/user-attachments/assets/020bc46d-19f0-49fa-b847-b2245a64b919)
+# <p align = "center" HẾT </p>
